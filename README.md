@@ -28,12 +28,14 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 # ng-gwm
 
-#### 1. Add firebase & [angularfire2](https://github.com/angular/angularfire) dependencies
+#### 1. Add necessary dependencies, modules & services
+
+* Add firebase & [angularfire2](https://github.com/angular/angularfire) dependencies
 ```
-npm install firebase @angular/fire@7.2
+npm install firebase @angular/fire
 ```
 
-#### 2. Create core & shared modules
+* Create core & shared modules
 
 Core module - to host our services. (Don't forget to add the module to the app using --module=app)
 ```
@@ -44,7 +46,7 @@ Shared module - to keep the imported components & modules. (just following goo p
 ng g m shared --module=app
 ```
 
-#### 3. Add auth service
+* Add auth service
 Create a service for authentication & add it to the core module.
 ```
 ng g s core/auth
@@ -64,3 +66,58 @@ import { AuthService } from './auth.service';
 })
 export class CoreModule { }
 ```
+
+#### 2. Set up Firebase
+* Create a project in Firebase.
+* Choose the web (</>) option.
+* Copy the forebaseConfig object & paste it in the environments.ts file in your project.
+```
+export const environment = {
+  production: false,
+  firebase: {
+    apiKey: "AIzaSyAPJjQzfZb_06TTGOv85rpJl9zIkXo5rjE",
+    authDomain: "ng-gwm.firebaseapp.com",
+    projectId: "ng-gwm",
+    storageBucket: "ng-gwm.appspot.com",
+    messagingSenderId: "837072589476",
+    appId: "1:837072589476:web:b3c3aeabebdb81d9ec4c31",
+    measurementId: "G-85RXTRGSBT"
+  }
+};
+```
+* Import necessary angular file modules & also the environment.
+```
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    provideFirebaseApp(() => initializeApp({ ... })),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    provideAuth(() => getAuth()),
+    CoreModule,
+    SharedModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+```
+
