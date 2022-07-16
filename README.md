@@ -43,3 +43,24 @@ Shared module - to keep the imported components & modules. (just following goo p
 ```
 ng g m shared --module=app
 ```
+
+#### 3. Add auth service
+Create a service for authentication & add it to the core module.
+```
+ng g s core/auth
+```
+
+```
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AuthService } from './auth.service';
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CommonModule
+  ],
+  providers: [AuthService]
+})
+export class CoreModule { }
+```
