@@ -28,9 +28,18 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 # ng-gwm
 
-## Dependencies
-
-1. firebase & [angularfire2](https://github.com/angular/angularfire)
+#### 1. Add firebase & [angularfire2](https://github.com/angular/angularfire) dependencies
 ```
 npm install firebase @angular/fire@7.2
+```
+
+#### 2. Create core & shared modules
+
+Core module - to host our services. (Don't forget to add the module to the app using --module=app)
+```
+ng g m core --module=app
+```
+Shared module - to keep the imported components & modules. (just following goo practice)
+```
+ng g m shared --module=app
 ```
